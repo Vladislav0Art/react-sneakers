@@ -1,0 +1,102 @@
+// fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+
+body {
+  margin: 0;
+  background: #E7F6FF;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.wrapper {
+  max-width: 1080px;
+  width: 100%;
+  margin: 50px auto;
+  background: #fff;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04);
+  border-radius: 20px;
+}
+
+
+// header
+.header {
+  border: 1px solid #EAEAEA;
+
+  &__info {
+    h3, p {
+      margin: 0;
+    }
+  }
+
+  &__right {
+    padding: 0;
+  }
+}
+
+
+// content
+.content {
+  &__title {
+    margin: 0;
+  }
+}
+
+
+// card
+.card {
+  max-width: 215px;
+  width: 100%;
+  padding: 20px 30px 35px 30px;
+  overflow: hidden;
+  background: #FFFFFF;
+  border: 1px solid #F1F1F1;
+  box-sizing: border-box;
+  border-radius: 40px;
+
+  p {
+    margin: 14px 0;
+    font-size: 14px;
+  }
+
+  &__tag {
+    font-weight: 500;
+    font-size: 11px;
+    color: #BDBDBD;
+  }
+
+  &__price {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  &__btn {
+    width: 32px;
+    height: 32px;
+    background: #FFFFFF;
+    border: 1px solid #F2F2F2;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+
+    svg {
+      path {
+        transition: 0.2s;
+      }
+    }
+
+    &:hover {
+      border: 1px solid #dfdfdf;
+
+      svg {
+        path {
+          fill: #8d8d8d;
+        }
+      }
+    }
+  }
+}
