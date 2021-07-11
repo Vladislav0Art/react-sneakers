@@ -20,7 +20,19 @@ function App() {
 
         <div className="content__cards d-flex flex-wrap justify-between">
 
-          <Card />
+          <Card
+            title="Nike Dope Shit Sneakers"
+            price={12900}
+            imgSrc="/img/sneakers/1.png"
+            onClick={() => console.log('')}
+          />
+
+          <Card
+            title="Adidas Shit Sneakers"
+            price={9900}
+            imgSrc="/img/sneakers/1.png"
+            onClick={() => console.log('')}
+          />
 
         </div>
       </section>

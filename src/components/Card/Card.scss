@@ -1,0 +1,55 @@
+// card
+.card {
+  max-width: 215px;
+  width: 100%;
+  padding: 20px 30px 35px 30px;
+  overflow: hidden;
+  background: #FFFFFF;
+  border: 1px solid #F1F1F1;
+  box-sizing: border-box;
+  border-radius: 40px;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: 0px 16px 30px rgba(0, 0, 0, 0.05);
+    transform: translateY(-5px);
+  }
+
+  &__favorite {
+    position: absolute;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  p {
+    margin: 14px 0;
+    font-size: 14px;
+  }
+
+  &__tag {
+    font-weight: 500;
+    font-size: 11px;
+    color: #BDBDBD;
+  }
+
+  &__price {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  &__btn {
+    padding: 10px;
+
+    svg {
+      path {
+        transition: 0.2s;
+      }
+    }
+
+    &:hover {
+      svg path {
+        fill: #8d8d8d;
+      }
+    }
+  }
+}
