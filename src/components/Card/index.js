@@ -5,12 +5,10 @@ import './Card.scss';
 
 
 const Card = ({
-  id,
   title, 
   price, 
   imgSrc,
   addCardToFavorite,
-  removeCardFromFavorite,
   addCard
 }) => {
 
@@ -28,19 +26,15 @@ const Card = ({
     addCardToFavorite();
   };
 
-  const onClickLikedHeart = () => {
-    setIsFavorite(false);
-    removeCardFromFavorite();
-  };
 
   return (
     <div className="card d-flex flex-column">
       <div className="card__favorite">
         {
           !isFavorite ?
-            <img src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={onClickUnlikedHeart} />
+            <img className="cu-p" src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={onClickUnlikedHeart} />
           :
-            <img src="/img/heart-liked.svg" alt="Heart-liked" onClick={onClickLikedHeart} />
+            <img src="/img/heart-liked.svg" alt="Heart-liked" />
         }
         
       </div>
@@ -82,13 +76,11 @@ const Card = ({
 
 
 Card.propTypes = {
-  id:      PropTypes.number.isRequired,
   title:   PropTypes.string.isRequired,
   price:   PropTypes.number.isRequired,
   imgSrc:  PropTypes.string.isRequired,
 
   addCardToFavorite: PropTypes.func.isRequired,
-  removeCardFromFavorite: PropTypes.func.isRequired,
   addCard: PropTypes.func.isRequired
 };
 

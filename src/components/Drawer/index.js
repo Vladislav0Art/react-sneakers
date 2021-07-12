@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CartItem from '../CartItem';
 
 
-const Drawer = ({ currentSum, cartItems = [], removeItem, getCartId, onClose }) => {
+const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
   return (
     <div className="drawer">
       <div className="drawer__dimmer"></div>
@@ -28,7 +28,7 @@ const Drawer = ({ currentSum, cartItems = [], removeItem, getCartId, onClose }) 
                 title={item.title}
                 price={item.price}
                 imgSrc={item.imgSrc}
-                removeItem={() => removeItem(getCartId(item.id), item.id)}
+                removeItem={() => removeItem(item.id)}
               />
               ))
             }
@@ -65,7 +65,6 @@ Drawer.propTypes = {
   currentSum: PropTypes.number.isRequired,
   cartItems: PropTypes.array.isRequired,
   removeItem: PropTypes.func.isRequired,
-  getCartId: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

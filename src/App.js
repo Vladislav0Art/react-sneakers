@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 // components 
@@ -37,41 +38,45 @@ function App() {
   useEffect(() => {
     let total = 0;
     cartItems.forEach(item => total += item.price);
-
     setCurrentSum(total);
-
   }, [cartItems]);
+
+
+
 
   // adding card to cart
   const onAddToCart = (item) => {
-    const newItem = {
-      ...item,
-      itemId: item.id
-    };
-
-    axios.post(`${url}/cart`, newItem)
+    axios.post(`${url}/cart`, item)
+      .then(res => setCartItems(prevState => ([
+        ...prevState,
+        res.data
+      ])))
       .catch(err => console.error(err));
-
-    setCartItems(prevState => ([
-      ...prevState,
-      newItem
-    ]));
   };
 
 
   // deleting card from cart 
-  const onRemoveFromCart = (dataBaseId, id) => {
-    axios.delete(`${url}/cart/${dataBaseId}`)
-    .catch(err => console.error(err));
-
-    setCartItems(prevState => prevState.filter(stateItem => stateItem.id !== id));
+  const onRemoveFromCart = (id) => {
+    axios.delete(`${url}/cart/${id}`)
+      .then(() => setCartItems(prevState => prevState.filter(stateItem => stateItem.id !== id)))
+      .catch(err => console.error(err));
   };
 
 
   // adding card to favorite
   const onAddToFavorite = (item) => {
     axios.post(`${url}/favorite`, item)
-      .then(res => console.log(res.data));
+      .then(res => setFavoriteItems(prev => [
+        ...prev,
+        res.data
+      ]));
+  };
+
+  // deleting card from favorite
+  const onRemoveFromFavorite = (id) => {
+    axios.delete(`${url}/favorite/${id}`)
+      .then(() => setFavoriteItems(prev => prev.filter(item => item.id !== id)))
+      .catch(err => console.error(err));
   };
 
 
@@ -84,20 +89,6 @@ function App() {
   };
 
 
-  // setting index + 1 as id of cart item because mockapi is a piece of shit 
-  const getCartId = (id) => {
-    let desiredId = null;
-
-    cartItems.forEach((item) => {
-      if(item.itemId === id) {
-        desiredId = item._id;
-      }
-    });
-
-    return desiredId;
-  };
-
-
   return (
     <div className="wrapper clear">
       { isCartOpened && 
@@ -105,7 +96,6 @@ function App() {
           currentSum={currentSum}
           cartItems={cartItems}
           removeItem={onRemoveFromCart}
-          getCartId={getCartId}
           onClose={() => setIsCartOpened(false)}
         /> 
       }
@@ -120,7 +110,7 @@ function App() {
           <h1 className="content__title">{(searchValue === "") ? "Все кросовки" : `Поиск по запросу: "${searchValue}"`}</h1>
           <div className="d-flex align-center content__search">
             <img className="mr-15" src="/img/search.svg" alt="Search icon" />
-            <input value={searchValue} onChange={onChangeSearchInput} type="text" placeholder="Поиск..." />
+            <input value={ searchValue } onChange={onChangeSearchInput} type="text" placeholder="Поиск..." />
             
             { searchValue !== '' && <img onClick={clearSearchInput} className="cu-p" src="/img/cross.svg" alt="Clear" /> }
           </div>
@@ -132,17 +122,16 @@ function App() {
             items
               .filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()))
               .map(item => (
-              <Card
-                id={item.id}
-                key={item.id}
-                title={item.title}
-                price={item.price}
-                imgSrc={item.imgSrc}
+                <Card
+                  id={item.id}
+                  key={item.id}
+                  title={item.title}
+                  price={item.price}
+                  imgSrc={item.imgSrc}
 
-                addCardToFavorite={() => onAddToFavorite(item)}
-                removeCardFromFavorite={() => console.log('added to favorite')}
-                addCard={() => onAddToCart(item)}
-              />
+                  addCardToFavorite={() => onAddToFavorite(item)}
+                  addCard={() => onAddToCart(item)}
+                />
             ))
           }
 
