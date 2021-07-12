@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CartItem from '../CartItem';
 
 
-const Drawer = ({ cartItems = [], onClose }) => {
+const Drawer = ({ currentSum, cartItems = [], removeItem, getCartId, onClose }) => {
   return (
     <div className="drawer">
       <div className="drawer__dimmer"></div>
@@ -28,6 +28,7 @@ const Drawer = ({ cartItems = [], onClose }) => {
                 title={item.title}
                 price={item.price}
                 imgSrc={item.imgSrc}
+                removeItem={() => removeItem(getCartId(item.id), item.id)}
               />
               ))
             }
@@ -38,13 +39,13 @@ const Drawer = ({ cartItems = [], onClose }) => {
           <li className="mb-20 justify-between d-flex drawer__total">
             <span>Итого:</span>
             <div></div>
-            <b>21 498 руб.</b>
+            <b>{ currentSum } руб.</b>
           </li>
 
           <li className="mb-25 justify-between d-flex drawer__tax">
             <span>Налог 5%:</span>
             <div></div>
-            <b>1074 руб.</b>
+            <b>{ Math.ceil(currentSum * 0.05) } руб.</b>
           </li>
 
           <li className="d-flex justify-center">
@@ -61,7 +62,10 @@ const Drawer = ({ cartItems = [], onClose }) => {
 };
 
 Drawer.propTypes = {
+  currentSum: PropTypes.number.isRequired,
   cartItems: PropTypes.array.isRequired,
+  removeItem: PropTypes.func.isRequired,
+  getCartId: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

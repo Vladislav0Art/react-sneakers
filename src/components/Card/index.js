@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import './Card.scss';
 
 
-const Card = ({ 
+const Card = ({
+  id,
   title, 
   price, 
   imgSrc,
   addCardToFavorite,
   removeCardFromFavorite,
-  addCard,
-  removeCard
+  addCard
 }) => {
 
   const [isAdded, setIsAdded] = React.useState(false);
@@ -21,11 +21,6 @@ const Card = ({
   const onClickPlus = () => {
     setIsAdded(true);
     addCard();
-  };
-
-  const onClickChecked = () => {
-    setIsAdded(false);
-    removeCard();
   };
 
   const onClickUnlikedHeart = () => {
@@ -72,8 +67,7 @@ const Card = ({
             />
           :
             <img
-              onClick={onClickChecked}
-              className="plus-btn"
+              className="check-btn"
               width={32} 
               height={32}
               src="/img/button-checked.svg" 
@@ -88,13 +82,14 @@ const Card = ({
 
 
 Card.propTypes = {
+  id:      PropTypes.number.isRequired,
   title:   PropTypes.string.isRequired,
   price:   PropTypes.number.isRequired,
   imgSrc:  PropTypes.string.isRequired,
+
   addCardToFavorite: PropTypes.func.isRequired,
   removeCardFromFavorite: PropTypes.func.isRequired,
-  addCard: PropTypes.func.isRequired,
-  removeCard: PropTypes.func.isRequired,
+  addCard: PropTypes.func.isRequired
 };
 
 

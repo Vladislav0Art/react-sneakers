@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Header = ({ onClickCart }) => {
+const Header = ({ currentSum, onClickCart }) => {
   return (
     <header className="d-flex align-center justify-between p-40 header">  
       <div className="d-flex align-center header__left">
@@ -18,7 +18,7 @@ const Header = ({ onClickCart }) => {
       <ul className="clear d-flex header__right">
         <li onClick={onClickCart} className="mr-30 d-flex align-center cu-p">
           <img className="mr-10" width={20} height={20} src="/img/cart.svg" alt="Cart" />
-          <span className="header__price">1200 руб.</span>
+          <span className="header__price">{ currentSum } руб.</span>
         </li>
 
         <li className="mr-30">
@@ -34,6 +34,7 @@ const Header = ({ onClickCart }) => {
 };
 
 Header.propTypes = {
+  currentSum: PropTypes.number.isRequired,
   onClickCart: PropTypes.func.isRequired
 };
 
