@@ -1,13 +1,38 @@
+import React from 'react';
 // components 
 import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
 
 function App() {
+  const [items, setItems] = React.useState([]);
+  const [cartItems, setCartItems] = React.useState([]);
+  const [isCartOpened, setIsCartOpened] = React.useState(false);
+
+  React.useEffect(() => {
+    fetch('https://60ec0862e9647b0017cde002.mockapi.io/items')
+    .then(res => res.json())
+    .then(data => setItems(data))
+    .catch(err => console.error(err));
+  }, []);
+
+
+  const onAddToCart = (item) => {
+    setCartItems(prevState => ([
+      ...prevState,
+      item
+    ]));
+  };
+
+  const onRemoveFromCart = (id) => {
+    setCartItems(prevState => prevState.filter(stateItem => stateItem.id !== id));
+  };
+
+
   return (
     <div className="wrapper clear">
-      <Drawer />
-      <Header />
+      { isCartOpened && <Drawer cartItems={cartItems} onClose={() => setIsCartOpened(false)} /> }
+      <Header onClickCart={() => setIsCartOpened(true)} />
 
       <section className="content p-40">
         <div className="mb-40 d-flex justify-between align-center">
@@ -20,19 +45,20 @@ function App() {
 
         <div className="content__cards d-flex flex-wrap justify-between">
 
-          <Card
-            title="Nike Dope Shit Sneakers"
-            price={12900}
-            imgSrc="/img/sneakers/1.png"
-            onClick={() => console.log('')}
-          />
-
-          <Card
-            title="Adidas Shit Sneakers"
-            price={9900}
-            imgSrc="/img/sneakers/1.png"
-            onClick={() => console.log('')}
-          />
+          {
+            items.map(item => (
+              <Card
+                key={item.id}
+                title={item.title}
+                price={item.price}
+                imgSrc={item.imgSrc}
+                addCardToFavorite={() => console.log('added to favorite')}
+                removeCardFromFavorite={() => console.log('added to favorite')}
+                addCard={() => onAddToCart(item)}
+                removeCard={() => onRemoveFromCart(item.id)}
+              />
+            ))
+          }
 
         </div>
       </section>

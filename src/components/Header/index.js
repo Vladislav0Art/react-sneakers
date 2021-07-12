@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Header = () => {
+const Header = ({ onClickCart }) => {
   return (
     <header className="d-flex align-center justify-between p-40 header">  
       <div className="d-flex align-center header__left">
@@ -15,7 +16,7 @@ const Header = () => {
       </div>
 
       <ul className="clear d-flex header__right">
-        <li className="mr-30 d-flex align-center">
+        <li onClick={onClickCart} className="mr-30 d-flex align-center cu-p">
           <img className="mr-10" width={20} height={20} src="/img/cart.svg" alt="Cart" />
           <span className="header__price">1200 руб.</span>
         </li>
@@ -30,6 +31,10 @@ const Header = () => {
       </ul>
     </header>
   );
-}
+};
+
+Header.propTypes = {
+  onClickCart: PropTypes.func.isRequired
+};
 
 export default Header;
