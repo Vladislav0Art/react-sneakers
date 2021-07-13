@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Header = ({ currentSum, onClickCart }) => {
+const Header = ({ currentSum, countOfLikedItems, onClickCart }) => {
   return (
     <header className="d-flex align-center justify-between p-40 header">
 
@@ -22,9 +22,15 @@ const Header = ({ currentSum, onClickCart }) => {
           <span className="header__price">{ currentSum } руб.</span>
         </li>
 
-        <li className="mr-30 cu-p">
-          <Link to="/favorites">
-            <img width={20} height={20} src="/img/like.svg" alt="Like" />
+        <li className="mr-30 favorite-link">
+          <Link className="cu-p" to="/favorites">
+            <span className="favorites-count">{ (countOfLikedItems > 0) && countOfLikedItems }</span>
+            {
+              (countOfLikedItems <= 0) ? 
+                <img width={20} height={20} src="/img/like.svg" alt="Like" />
+              :
+                <img width={20} height={20} src="/img/like-colored.svg" alt="Like colored" />
+            }
           </Link>
         </li>
 
@@ -38,6 +44,7 @@ const Header = ({ currentSum, onClickCart }) => {
 
 Header.propTypes = {
   currentSum: PropTypes.number.isRequired,
+  countOfLikedItems: PropTypes.number.isRequired,
   onClickCart: PropTypes.func.isRequired
 };
 

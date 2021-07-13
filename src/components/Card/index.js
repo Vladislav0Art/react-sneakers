@@ -8,12 +8,15 @@ const Card = ({
   title, 
   price, 
   imgSrc,
+  isCardAdded = false,
+  isCardFavorite = false,
   addCardToFavorite,
+  removeFromFavorite,
   addCard
 }) => {
 
-  const [isAdded, setIsAdded] = React.useState(false);
-  const [isFavorite, setIsFavorite] = React.useState(false);
+  const [isAdded, setIsAdded] = React.useState(isCardAdded);
+  const [isFavorite, setIsFavorite] = React.useState(isCardFavorite);
 
 
   const onClickPlus = () => {
@@ -26,6 +29,11 @@ const Card = ({
     addCardToFavorite();
   };
 
+  const onClickLikedHeart = () => {
+    setIsFavorite(false);
+    removeFromFavorite && removeFromFavorite();
+  };
+
 
   return (
     <div className="card d-flex flex-column">
@@ -34,7 +42,7 @@ const Card = ({
           !isFavorite ?
             <img className="cu-p" src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={onClickUnlikedHeart} />
           :
-            <img src="/img/heart-liked.svg" alt="Heart-liked" />
+            <img className="cu-p" src="/img/heart-liked.svg" alt="Heart-liked" onClick={onClickLikedHeart} />
         }
         
       </div>
@@ -79,8 +87,11 @@ Card.propTypes = {
   title:   PropTypes.string.isRequired,
   price:   PropTypes.number.isRequired,
   imgSrc:  PropTypes.string.isRequired,
+  isCardAdded: PropTypes.bool,
+  isCardFavorite: PropTypes.bool,
 
   addCardToFavorite: PropTypes.func.isRequired,
+  removeFromFavorite: PropTypes.func,
   addCard: PropTypes.func.isRequired
 };
 

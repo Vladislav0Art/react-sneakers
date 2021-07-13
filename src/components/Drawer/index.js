@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // components
 import CartItem from '../CartItem';
+import Info from '../Info';
 
 
 const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
@@ -22,6 +23,7 @@ const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
 
           <div className="drawer__cards">
             {
+              cartItems.length > 0 &&
               cartItems.map(item => (
               <CartItem
                 key={item.id}
@@ -35,26 +37,39 @@ const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
           </div>
         </div>
 
-        <ul className="drawer__order mb-30">
-          <li className="mb-20 justify-between d-flex drawer__total">
-            <span>Итого:</span>
-            <div></div>
-            <b>{ currentSum } руб.</b>
-          </li>
+        {
+          cartItems.length > 0 ?
+            <ul className="drawer__order mb-30">
+              <li className="mb-20 justify-between d-flex drawer__total">
+                <span>Итого:</span>
+                <div></div>
+                <b>{ currentSum } руб.</b>
+              </li>
 
-          <li className="mb-25 justify-between d-flex drawer__tax">
-            <span>Налог 5%:</span>
-            <div></div>
-            <b>{ Math.ceil(currentSum * 0.05) } руб.</b>
-          </li>
+              <li className="mb-25 justify-between d-flex drawer__tax">
+                <span>Налог 5%:</span>
+                <div></div>
+                <b>{ Math.ceil(currentSum * 0.05) } руб.</b>
+              </li>
 
-          <li className="d-flex justify-center">
-            <button className="drawer__actionBtn d-flex align-center justify-between action-btn">
-              <span>Оформить заказ</span>
-              <img src="/img/arrow.svg" alt="Arrow" />
-            </button>
-          </li>
-        </ul>
+              <li className="d-flex justify-center">
+                <button className="drawer__actionBtn action-btn">
+                  <span>Оформить заказ</span>
+                  <img src="/img/arrow.svg" alt="Arrow" />
+                </button>
+              </li>
+            </ul>
+          :
+          <Info
+            image={{
+              url: '/img/empty-box.svg',
+              width: 120,
+              height: 120
+            }}
+            title="Корзина пустая"
+            parag="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
+          />
+        }
 
       </div>
     </div>

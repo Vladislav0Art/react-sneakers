@@ -63,6 +63,20 @@ body {
   &__right {
     padding: 0;
   }
+
+  .favorite-link {
+    position: relative;
+  }
+
+  .favorites-count {
+    position: absolute;
+    left: 50%;
+    bottom: -6.5px;
+    font-size: 10px;
+    color: #FF8585;
+    z-index: 10;
+    transform: translateX(-50%);
+  }
 }
 
 
@@ -187,9 +201,18 @@ body {
   }
 
   &__actionBtn {
+    position: relative;
     box-sizing: border-box;
     padding: 18px 40px 18px 80px;
     transition: 0.2s ease-in-out;
+
+    img {
+      position: absolute;
+      top: 50%;
+      right: 40px;
+      transform: translateY(-50%);
+      transition: inherit;
+    }
   
     span {
       margin-right: 80px;
@@ -197,6 +220,10 @@ body {
 
     &:hover {
       background-color: lighten(#9DD558, 5%);
+
+      img {
+        right: 30px;
+      }
     }
     &:active {
       background-color: darken(#9DD558, 5%);
