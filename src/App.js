@@ -10,6 +10,9 @@ import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 // config
 import { baseUrl as url } from './config/config';
+// context
+import AppContext from './contexts/AppContext';
+
 
 function App() {
   const [items, setItems] = useState([]);
@@ -22,6 +25,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
 
+  // getting items, cart items, favorite items from mockup db
   useEffect(() => {
     const getItems = new Promise((resolve, reject) => (
       axios.get(`${url}/items`)
@@ -112,47 +116,70 @@ function App() {
   };
 
 
+  // checking if item has been added to cart
+  const isItemAdded = (id) => (
+    cartItems.some(cartItem => Number(cartItem.itemId) === Number(id))
+  );
+
+
+  // checking if item has been added to favorites
+  const isItemFavorite = (id) => (
+    favoriteItems.some(favoriteItem => Number(favoriteItem.itemId) === Number(id))
+  );
+
+
   return (
     <div className="wrapper clear">
-      { isCartOpened && 
-        <Drawer
+      <AppContext.Provider value={{ 
+        items, 
+        cartItems, 
+        favoriteItems,
+
+        setCartItems,
+        onRemoveFromCart,
+
+        isItemAdded, 
+        isItemFavorite
+      }}>
+        { isCartOpened && 
+          <Drawer
+            currentSum={currentSum}
+            removeItem={onRemoveFromCart}
+            onClose={() => setIsCartOpened(false)}
+          />
+        }
+        
+        <Header
           currentSum={currentSum}
-          cartItems={cartItems}
-          removeItem={onRemoveFromCart}
-          onClose={() => setIsCartOpened(false)}
+          countOfLikedItems={favoriteItems.length} 
+          onClickCart={() => setIsCartOpened(true)}
         />
-      }
-      
-      <Header
-        currentSum={currentSum}
-        countOfLikedItems={favoriteItems.length} 
-        onClickCart={() => setIsCartOpened(true)}
-      />
 
-      <Route path="/" exact>
-        <Home
-          items={items}
-          cartItems={cartItems}
-          favoriteItems={favoriteItems}
-          searchValue={searchValue}
-          isLoading={isLoading}
-          onChangeSearchInput={onChangeSearchInput} 
-          clearSearchInput={clearSearchInput}
-          onAddToFavorite={onAddToFavorite}
-          onAddToCart={onAddToCart}
-          removeFromFavorite={onRemoveFromFavorite}
-        />
-      </Route>
+        <Route path="/" exact>
+          <Home
+            searchValue={searchValue}
+            isLoading={isLoading}
+            
+            onChangeSearchInput={onChangeSearchInput} 
+            clearSearchInput={clearSearchInput}
 
-      <Route path="/favorites" exact>
-        <Favorites
-          items={favoriteItems}
-          cartItems={cartItems}
-          onAddToFavorite={onAddToFavorite}
-          onRemoveFromFavorite={onRemoveFromFavorite}
-          onAddToCart={onAddToCart}
-        />
-      </Route>
+            onAddToFavorite={onAddToFavorite}
+            onRemoveFromFavorite={onRemoveFromFavorite}
+
+            onAddToCart={onAddToCart}
+            onRemoveFromCart={onRemoveFromCart}
+          />
+        </Route>
+
+        <Route path="/favorites" exact>
+          <Favorites
+            onAddToFavorite={onAddToFavorite}
+            onRemoveFromFavorite={onRemoveFromFavorite}
+            onAddToCart={onAddToCart}
+            onRemoveFromCart={onRemoveFromCart}
+          />
+        </Route>
+      </AppContext.Provider>
 
     </div>
   );

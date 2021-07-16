@@ -1,11 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 // components
 import CartItem from '../CartItem';
 import Info from '../Info';
+// contexts
+import AppContext from '../../contexts/AppContext';
+// config
+import { baseUrl } from '../../config/config';
 
 
-const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
+
+const Drawer = ({ currentSum, removeItem, onClose }) => {
+  const { cartItems, setCartItems } = React.useContext(AppContext);
+
+  const [orderId, setOrderId] = React.useState(null);
+  const [isOrderCreated, setIsOrderCreated] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+
+  const delay = (ms) => new Promise((resolve, reject) => setTimeout(resolve, ms));
+
+
+  const onClickOrder = () => {
+    setIsLoading(true);
+    
+    axios.post(`${baseUrl}/orders`, {
+      items: cartItems
+    })
+      .then(async ({ data }) => {
+        setOrderId(data.id);
+        setIsOrderCreated(true);
+        setCartItems([]);
+
+        // deleting all cart items from mockup db
+        for(let i = 0; i < data.items.length; i++) {
+          try {
+            const item = data.items[i];
+            await axios.delete(`${baseUrl}/cart/${item.id}`);
+            await delay(1000);
+          }
+          catch(err) {
+            console.error(err);
+          }
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setIsLoading(false));
+  };
+
   return (
     <div className="drawer">
       <div className="drawer__dimmer"></div>
@@ -23,7 +66,7 @@ const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
 
           <div className="drawer__cards">
             {
-              cartItems.length > 0 &&
+              (cartItems.length > 0 && !isOrderCreated) &&
               cartItems.map(item => (
               <CartItem
                 key={item.id}
@@ -38,28 +81,31 @@ const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
         </div>
 
         {
-          cartItems.length > 0 ?
-            <ul className="drawer__order mb-30">
-              <li className="mb-20 justify-between d-flex drawer__total">
-                <span>Итого:</span>
-                <div></div>
-                <b>{ currentSum } руб.</b>
-              </li>
+          (cartItems.length > 0 && !isOrderCreated) && 
+          <ul className="drawer__order mb-30">
+            <li className="mb-20 justify-between d-flex drawer__total">
+              <span>Итого:</span>
+              <div></div>
+              <b>{ currentSum } руб.</b>
+            </li>
 
-              <li className="mb-25 justify-between d-flex drawer__tax">
-                <span>Налог 5%:</span>
-                <div></div>
-                <b>{ Math.ceil(currentSum * 0.05) } руб.</b>
-              </li>
+            <li className="mb-25 justify-between d-flex drawer__tax">
+              <span>Налог 5%:</span>
+              <div></div>
+              <b>{ Math.ceil(currentSum * 0.05) } руб.</b>
+            </li>
 
-              <li className="d-flex justify-center">
-                <button className="drawer__actionBtn action-btn">
-                  <span>Оформить заказ</span>
-                  <img src="/img/arrow-right.svg" alt="Arrow Right" />
-                </button>
-              </li>
-            </ul>
-          :
+            <li className="d-flex justify-center">
+              <button disabled={isLoading} onClick={onClickOrder} className="drawer__actionBtn action-btn">
+                <span>Оформить заказ</span>
+                <img src="/img/arrow-right.svg" alt="Arrow Right" />
+              </button>
+            </li>
+          </ul>
+        }
+
+        {
+          (cartItems.length <= 0 && !isOrderCreated) &&
           <Info
             image={{
               url: '/img/empty-box.svg',
@@ -76,6 +122,24 @@ const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
           />
         }
 
+        {
+          isOrderCreated &&
+          <Info
+            image={{
+              url: '/img/order-created.svg',
+              width: 83,
+              height: 120
+            }}
+            title="Заказ оформлен!"
+            parag={`Ваш заказ #${orderId} скоро будет передан курьерской доставке.`}
+            btn={{
+              link: "/",
+              text: "Вернуться на главную",
+              onClick: onClose
+            }}
+          />
+        }
+
       </div>
     </div>
   );
@@ -83,7 +147,6 @@ const Drawer = ({ currentSum, cartItems = [], removeItem, onClose }) => {
 
 Drawer.propTypes = {
   currentSum: PropTypes.number.isRequired,
-  cartItems: PropTypes.array.isRequired,
   removeItem: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };

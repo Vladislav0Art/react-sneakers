@@ -4,41 +4,23 @@ import PropTypes from 'prop-types';
 import CardLoadingSkeleton from '../CardLoadingSkeleton';
 // styles
 import './Card.scss';
+// contexts
+import AppContext from '../../contexts/AppContext';
 
 
 const Card = ({
+  id,
   title, 
   price, 
   imgSrc,
-  isCardAdded = false,
-  isCardFavorite = false,
   isLoading = false,
-  addCardToFavorite,
+  
+  addToFavorite,
   removeFromFavorite,
-  addCard
+  addToCart,
+  removeFromCart
 }) => {
-
-  const [isAdded, setIsAdded] = React.useState(isCardAdded);
-  const [isFavorite, setIsFavorite] = React.useState(isCardFavorite);
-
-
-  const onClickPlus = () => {
-    setIsAdded(true);
-    addCard();
-  };
-
-  const onClickUnlikedHeart = () => {
-    setIsFavorite(true);
-    addCardToFavorite();
-  };
-
-  const onClickLikedHeart = () => {
-    if(typeof removeFromFavorite !== 'undefined') {
-      setIsFavorite(false);
-      removeFromFavorite();
-    }
-  };
-
+  const { isItemAdded, isItemFavorite } = React.useContext(AppContext);
 
   return (
     <div className="card d-flex flex-column">
@@ -52,10 +34,10 @@ const Card = ({
         <React.Fragment>
           <div className="card__favorite">
             {
-              !isFavorite ?
-                <img className="cu-p" src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={onClickUnlikedHeart} />
+              !isItemFavorite(id) ?
+                <img className="cu-p" src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={addToFavorite} />
               :
-                <img className="cu-p" src="/img/heart-liked.svg" alt="Heart-liked" onClick={onClickLikedHeart} />
+                <img className="cu-p" src="/img/heart-liked.svg" alt="Heart-liked" onClick={removeFromFavorite} />
             }
           </div>
           
@@ -70,9 +52,9 @@ const Card = ({
             </div>
 
             {
-              !isAdded ?
+              !isItemAdded(id) ?
                 <img
-                  onClick={onClickPlus}
+                  onClick={addToCart}
                   className="plus-btn"
                   width={32} 
                   height={32}
@@ -81,7 +63,8 @@ const Card = ({
                 />
               :
                 <img
-                  className="check-btn"
+                  onClick={removeFromCart}
+                  className="check-btn cu-p"
                   width={32} 
                   height={32}
                   src="/img/button-checked.svg" 
@@ -98,15 +81,18 @@ const Card = ({
 
 
 Card.propTypes = {
-  title:   PropTypes.string.isRequired,
-  price:   PropTypes.number.isRequired,
-  imgSrc:  PropTypes.string.isRequired,
-  isCardAdded: PropTypes.bool,
-  isCardFavorite: PropTypes.bool,
+  id: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.number.isRequired
+  ]),
+  title: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  imgSrc: PropTypes.string.isRequired,
 
-  addCardToFavorite: PropTypes.func.isRequired,
-  removeFromFavorite: PropTypes.func,
-  addCard: PropTypes.func.isRequired
+  addToFavorite: PropTypes.func.isRequired,
+  removeFromFavorite: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  removeFromCart: PropTypes.func.isRequired
 };
 
 

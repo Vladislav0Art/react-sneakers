@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const CardContainer = ({ children }) => {
   return (
-    <div className="content__cards d-flex flex-wrap justify-between">
+    <div className="content__cards">
       { children }
     </div>
   );
@@ -12,9 +12,9 @@ const CardContainer = ({ children }) => {
 
 CardContainer.propTypes = {
   children: PropTypes.oneOfType([
-              PropTypes.arrayOf(PropTypes.node),
-              PropTypes.node
-            ]).isRequired
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
 };
 
 export default CardContainer;
