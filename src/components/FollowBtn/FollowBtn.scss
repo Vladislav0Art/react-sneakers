@@ -1,0 +1,31 @@
+.follow-btn {
+  position: relative;
+  box-sizing: border-box;
+  padding: 18px 45px 18px 65px;
+  transition: 0.2s ease-in-out;
+  
+  img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 30px;
+    transition: inherit;
+  }
+
+  span {
+    color: #fff;
+    font-size: 14px;
+  }
+
+  &:hover {
+    background-color: lighten(#9DD558, 5%);
+
+    img {
+      left: 20px;
+    }
+  }
+  &:active {
+    background-color: darken(#9DD558, 5%);
+  }
+
+}

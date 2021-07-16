@@ -19,23 +19,36 @@ function App() {
   const [isCartOpened, setIsCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [currentSum, setCurrentSum] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
-    // gettting items from DB
-    axios.get(`${url}/items`)
-      .then(res => setItems(res.data))
-      .catch(err => console.error(err));
+    const getItems = new Promise((resolve, reject) => (
+      axios.get(`${url}/items`)
+          .then(res => resolve(res.data))
+          .catch(err => reject(err))
+    ));
 
-      // getting cart items from DB
+    const getCartItems = new Promise((resolve, reject) => (
       axios.get(`${url}/cart`)
-      .then(res => setCartItems(res.data))
-      .catch(err => console.error(err));
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    ));
 
-      // getting cart items from DB
+    const getFavoriteItems = new Promise((resolve, reject) => (
       axios.get(`${url}/favorites`)
-        .then(res => setFavoriteItems(res.data))
-        .catch(err => console.error(err));
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    ));
+
+    Promise.all([getItems, getCartItems, getFavoriteItems])
+      .then(values => {
+        setFavoriteItems(values[2]);
+        setCartItems(values[1]); 
+        setItems(values[0]);
+        setIsLoading(false);
+      })
+      .catch(err => console.error(err));
   }, []);
 
 
@@ -51,7 +64,9 @@ function App() {
 
   // adding card to cart
   const onAddToCart = (item) => {
-    axios.post(`${url}/cart`, item)
+    const modifiedItem = item.hasOwnProperty('itemId') ? item : { ...item, itemId: item.id };
+
+    axios.post(`${url}/cart`, modifiedItem)
       .then(res => setCartItems(prevState => ([
         ...prevState,
         res.data
@@ -70,7 +85,10 @@ function App() {
 
   // adding card to favorite
   const onAddToFavorite = (item) => {
-    axios.post(`${url}/favorites`, item)
+    axios.post(`${url}/favorites`, {
+      ...item,
+      itemId: item.id
+    })
       .then(res => setFavoriteItems(prev => [
         ...prev,
         res.data
@@ -114,17 +132,22 @@ function App() {
       <Route path="/" exact>
         <Home
           items={items}
-          searchValue={searchValue} 
+          cartItems={cartItems}
+          favoriteItems={favoriteItems}
+          searchValue={searchValue}
+          isLoading={isLoading}
           onChangeSearchInput={onChangeSearchInput} 
           clearSearchInput={clearSearchInput}
           onAddToFavorite={onAddToFavorite}
           onAddToCart={onAddToCart}
+          removeFromFavorite={onRemoveFromFavorite}
         />
       </Route>
 
       <Route path="/favorites" exact>
         <Favorites
           items={favoriteItems}
+          cartItems={cartItems}
           onAddToFavorite={onAddToFavorite}
           onRemoveFromFavorite={onRemoveFromFavorite}
           onAddToCart={onAddToCart}

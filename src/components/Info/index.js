@@ -2,17 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // scss modules
 import styles from './Info.module.scss';
+// components
+import FollowBtn from '../FollowBtn';
 
 
-const Info = ({ image = {}, title = "", parag = "" }) => {
+const Info = ({ image = {}, title = "", parag = "", btn = {} }) => {
 
   const { url = "", width = 70, height = 70 } = image;
+  const { text: btnText = "", link = null, onClick } = btn;
 
   return (
     <div className={styles.infoBlock}>
       { url.trim() !== "" && <img src={ url } width={width} height={height} alt="" /> }
       { title.trim() !== "" && <h2>{ title }</h2> }
-      { parag.trim() && <p>{ parag }</p> }
+      { parag.trim() !== "" && <p>{ parag }</p> }
+      { (btnText.trim() !== "" && link) && <FollowBtn text={btnText} link={link} onClick={onClick} /> }
     </div>
   );
 };
@@ -20,7 +24,8 @@ const Info = ({ image = {}, title = "", parag = "" }) => {
 Info.propTypes = {
   image: PropTypes.object,
   title: PropTypes.string,
-  parag: PropTypes.string
+  parag: PropTypes.string,
+  btn: PropTypes.object
 };
 
 export default Info;

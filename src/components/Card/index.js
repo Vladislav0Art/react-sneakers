@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// components
+import CardLoadingSkeleton from '../CardLoadingSkeleton';
 // styles
 import './Card.scss';
 
@@ -10,6 +12,7 @@ const Card = ({
   imgSrc,
   isCardAdded = false,
   isCardFavorite = false,
+  isLoading = false,
   addCardToFavorite,
   removeFromFavorite,
   addCard
@@ -30,54 +33,65 @@ const Card = ({
   };
 
   const onClickLikedHeart = () => {
-    setIsFavorite(false);
-    removeFromFavorite && removeFromFavorite();
+    if(typeof removeFromFavorite !== 'undefined') {
+      setIsFavorite(false);
+      removeFromFavorite();
+    }
   };
 
 
   return (
     <div className="card d-flex flex-column">
-      <div className="card__favorite">
-        {
-          !isFavorite ?
-            <img className="cu-p" src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={onClickUnlikedHeart} />
-          :
-            <img className="cu-p" src="/img/heart-liked.svg" alt="Heart-liked" onClick={onClickLikedHeart} />
-        }
-        
-      </div>
-      
-      <img src={ imgSrc } width={133} height={112} alt="Sneakers" />
-      <p>{ title }</p>
 
-      <div className="d-flex justify-between align-center">
+      {
+        isLoading && <CardLoadingSkeleton />
+      }
 
-        <div className="d-flex flex-column">
-          <span className="text-uppercase card__tag">Цена:</span>
-          <b className="card__price">{ price } руб.</b>
-        </div>
+      {
+        !isLoading && 
+        <React.Fragment>
+          <div className="card__favorite">
+            {
+              !isFavorite ?
+                <img className="cu-p" src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={onClickUnlikedHeart} />
+              :
+                <img className="cu-p" src="/img/heart-liked.svg" alt="Heart-liked" onClick={onClickLikedHeart} />
+            }
+          </div>
+          
+          <img src={ imgSrc } width={133} height={112} alt="Sneakers" />
+          <p>{ title }</p>
 
-        {
-          !isAdded ?
-            <img
-              onClick={onClickPlus}
-              className="plus-btn"
-              width={32} 
-              height={32}
-              src="/img/button-unchecked.svg" 
-              alt="Plus"
-            />
-          :
-            <img
-              className="check-btn"
-              width={32} 
-              height={32}
-              src="/img/button-checked.svg" 
-              alt="Checked"
-            />
-        }
+          <div className="d-flex justify-between align-center">
 
-      </div>
+            <div className="d-flex flex-column">
+              <span className="text-uppercase card__tag">Цена:</span>
+              <b className="card__price">{ price } руб.</b>
+            </div>
+
+            {
+              !isAdded ?
+                <img
+                  onClick={onClickPlus}
+                  className="plus-btn"
+                  width={32} 
+                  height={32}
+                  src="/img/button-unchecked.svg" 
+                  alt="Plus"
+                />
+              :
+                <img
+                  className="check-btn"
+                  width={32} 
+                  height={32}
+                  src="/img/button-checked.svg" 
+                  alt="Checked"
+                />
+            }
+
+          </div>
+        </React.Fragment>
+      }
     </div>
   );
 };
