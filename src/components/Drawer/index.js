@@ -98,7 +98,7 @@ const Drawer = ({ currentSum, removeItem, onClose }) => {
             <li className="d-flex justify-center">
               <button disabled={isLoading} onClick={onClickOrder} className="drawer__actionBtn action-btn">
                 <span>Оформить заказ</span>
-                <img src="/img/arrow-right.svg" alt="Arrow Right" />
+                <img src="img/arrow-right.svg" alt="Arrow Right" />
               </button>
             </li>
           </ul>

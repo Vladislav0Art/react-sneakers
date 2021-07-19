@@ -37,10 +37,10 @@ const Home = ({
       <div className="mb-40 d-flex justify-between align-center content__top">
         <h1 className="content__title">{(searchValue === "") ? "Все кросовки" : `Поиск по запросу: "${searchValue}"`}</h1>
         <div className="d-flex align-center content__search">
-          <img className="mr-15" src="/img/search.svg" alt="Search icon" />
+          <img className="mr-15" src="img/search.svg" alt="Search icon" />
           <input value={ searchValue } onChange={onChangeSearchInput} type="text" placeholder="Поиск..." />
           
-          { searchValue !== '' && <img onClick={clearSearchInput} className="cu-p" src="/img/cross.svg" alt="Clear" /> }
+          { searchValue !== '' && <img onClick={clearSearchInput} className="cu-p" src="img/cross.svg" alt="Clear" /> }
         </div>
       </div>
 

@@ -39,9 +39,9 @@ const Card = ({
             {
               !isAddingToFavoriteDisabled &&
               (!isItemFavorite(id) ?
-                <img className="cu-p" src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={addToFavorite} />
+                <img className="cu-p" src="img/heart-unliked.svg" alt="Heart-unliked" onClick={addToFavorite} />
               :
-                <img className="cu-p" src="/img/heart-liked.svg" alt="Heart-liked" onClick={removeFromFavorite} />)
+                <img className="cu-p" src="img/heart-liked.svg" alt="Heart-liked" onClick={removeFromFavorite} />)
             }
           </div>
           
@@ -63,7 +63,7 @@ const Card = ({
                   className="plus-btn"
                   width={32} 
                   height={32}
-                  src="/img/button-unchecked.svg" 
+                  src="img/button-unchecked.svg" 
                   alt="Plus"
                 />
               :
@@ -72,7 +72,7 @@ const Card = ({
                   className="check-btn cu-p"
                   width={32} 
                   height={32}
-                  src="/img/button-checked.svg" 
+                  src="img/button-checked.svg" 
                   alt="Checked"
                 />)
             }
