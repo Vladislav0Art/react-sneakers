@@ -16,13 +16,13 @@ const Header = ({ currentSum, countOfLikedItems, onClickCart }) => {
         </div>
       </Link>
 
-      <ul className="clear d-flex header__right">
-        <li onClick={onClickCart} className="mr-30 d-flex align-center cu-p">
+      <div className="clear d-flex header__right">
+        <div onClick={onClickCart} className="mr-30 d-flex align-center cu-p">
           <img className="mr-10" width={20} height={20} src="/img/cart.svg" alt="Cart" />
           <span className="header__price">{ currentSum } руб.</span>
-        </li>
+        </div>
 
-        <li className="mr-30 favorite-link">
+        <div className="mr-30 favorite-link">
           <Link className="cu-p" to="/favorites">
             <span className="favorites-count">{ (countOfLikedItems > 0) && countOfLikedItems }</span>
             {
@@ -32,12 +32,14 @@ const Header = ({ currentSum, countOfLikedItems, onClickCart }) => {
                 <img width={20} height={20} src="/img/like-colored.svg" alt="Like colored" />
             }
           </Link>
-        </li>
+        </div>
 
-        <li className="cu-p">
-          <img width={20} height={20} src="/img/user.svg" alt="User" />
-        </li>
-      </ul>
+        <Link to="/orders" className="cu-p">
+          <div>
+            <img width={20} height={20} src="/img/user.svg" alt="User" />
+          </div>
+        </Link>
+      </div>
     </header>
   );
 };

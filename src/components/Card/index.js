@@ -14,6 +14,9 @@ const Card = ({
   price, 
   imgSrc,
   isLoading = false,
+
+  isAddingToCartDisabled = false,
+  isAddingToFavoriteDisabled = false,
   
   addToFavorite,
   removeFromFavorite,
@@ -34,10 +37,11 @@ const Card = ({
         <React.Fragment>
           <div className="card__favorite">
             {
-              !isItemFavorite(id) ?
+              !isAddingToFavoriteDisabled &&
+              (!isItemFavorite(id) ?
                 <img className="cu-p" src="/img/heart-unliked.svg" alt="Heart-unliked" onClick={addToFavorite} />
               :
-                <img className="cu-p" src="/img/heart-liked.svg" alt="Heart-liked" onClick={removeFromFavorite} />
+                <img className="cu-p" src="/img/heart-liked.svg" alt="Heart-liked" onClick={removeFromFavorite} />)
             }
           </div>
           
@@ -52,7 +56,8 @@ const Card = ({
             </div>
 
             {
-              !isItemAdded(id) ?
+              !isAddingToCartDisabled && 
+              (!isItemAdded(id) ?
                 <img
                   onClick={addToCart}
                   className="plus-btn"
@@ -69,7 +74,7 @@ const Card = ({
                   height={32}
                   src="/img/button-checked.svg" 
                   alt="Checked"
-                />
+                />)
             }
 
           </div>
@@ -88,6 +93,10 @@ Card.propTypes = {
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   imgSrc: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
+
+  isAddingToCartDisabled: PropTypes.bool,
+  isAddingToFavoriteDisabled: PropTypes.bool,
 
   addToFavorite: PropTypes.func.isRequired,
   removeFromFavorite: PropTypes.func.isRequired,

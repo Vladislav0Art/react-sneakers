@@ -8,6 +8,7 @@ import Drawer from './components/Drawer';
 // pages
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
+import Orders from './pages/Orders'; 
 // config
 import { baseUrl as url } from './config/config';
 // context
@@ -47,6 +48,7 @@ function App() {
 
     Promise.all([getItems, getCartItems, getFavoriteItems])
       .then(values => {
+        // the order matters, favorite and cart items go earlier
         setFavoriteItems(values[2]);
         setCartItems(values[1]); 
         setItems(values[0]);
@@ -99,6 +101,7 @@ function App() {
       ]));
   };
 
+
   // deleting card from favorite
   const onRemoveFromFavorite = (id) => {
     axios.delete(`${url}/favorites/${id}`)
@@ -107,10 +110,13 @@ function App() {
   };
 
 
+  // handling change event of search input  
   const onChangeSearchInput = (e) => {
     setSearchValue(e.target.value);
   };
 
+
+  // cleaning search input
   const clearSearchInput = () => {
     setSearchValue('');
   };
@@ -179,6 +185,11 @@ function App() {
             onRemoveFromCart={onRemoveFromCart}
           />
         </Route>
+
+        <Route path="/orders">
+          <Orders />
+        </Route>
+
       </AppContext.Provider>
 
     </div>
