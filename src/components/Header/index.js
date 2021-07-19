@@ -6,7 +6,7 @@ const Header = ({ currentSum, countOfLikedItems, onClickCart }) => {
   return (
     <header className="d-flex align-center justify-between p-40 header">
 
-      <Link to="/">
+      <Link to="/react-sneakers/">
         <div className="d-flex align-center header__left">
           <img className="mr-15" width={40} height={40} src="img/logo.svg" alt="Logo" />
           <div className="header__info">
@@ -23,7 +23,7 @@ const Header = ({ currentSum, countOfLikedItems, onClickCart }) => {
         </div>
 
         <div className="mr-30 favorite-link">
-          <Link className="cu-p" to="/favorites">
+          <Link className="cu-p" to="/react-sneakers/favorites">
             <span className="favorites-count">{ (countOfLikedItems > 0) && countOfLikedItems }</span>
             {
               (countOfLikedItems <= 0) ? 
@@ -34,7 +34,7 @@ const Header = ({ currentSum, countOfLikedItems, onClickCart }) => {
           </Link>
         </div>
 
-        <Link to="/orders" className="cu-p">
+        <Link to="/react-sneakers/orders" className="cu-p">
           <div>
             <img width={20} height={20} src="img/user.svg" alt="User" />
           </div>

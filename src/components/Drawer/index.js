@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
+import React from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
 // components
-import CartItem from '../CartItem';
-import Info from '../Info';
+import CartItem from "../CartItem";
+import Info from "../Info";
 // contexts
-import AppContext from '../../contexts/AppContext';
+import AppContext from "../../contexts/AppContext";
 // config
-import { baseUrl } from '../../config/config';
+import { baseUrl } from "../../config/config";
 
 
 
@@ -108,14 +108,14 @@ const Drawer = ({ currentSum, removeItem, onClose }) => {
           (cartItems.length <= 0 && !isOrderCreated) &&
           <Info
             image={{
-              url: '/img/empty-box.svg',
+              url: "img/empty-box.svg",
               width: 120,
               height: 120
             }}
             title="Корзина пустая"
             parag="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
             btn={{
-              link: "/",
+              link: "/react-sneakers/",
               text: "Вернуться на главную",
               onClick: onClose
             }}
@@ -126,14 +126,14 @@ const Drawer = ({ currentSum, removeItem, onClose }) => {
           isOrderCreated &&
           <Info
             image={{
-              url: '/img/order-created.svg',
+              url: "img/order-created.svg",
               width: 83,
               height: 120
             }}
             title="Заказ оформлен!"
             parag={`Ваш заказ #${orderId} скоро будет передан курьерской доставке.`}
             btn={{
-              link: "/",
+              link: "/react-sneakers/",
               text: "Вернуться на главную",
               onClick: onClose
             }}

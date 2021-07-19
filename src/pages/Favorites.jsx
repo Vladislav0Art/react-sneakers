@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 // components
 import Card from '../components/Card'; 
 import CardContainer from '../components/CardContainer';
+import Info from '../components/Info';
 // contexts
 import AppContext from '../contexts/AppContext';
 
@@ -24,28 +25,41 @@ const Favorites = ({
     <section className="content p-40">
       <h1 className="content__title mb-40">Избранное</h1>
       
-      <CardContainer>
-        { 
-          favoriteItems.length ?
-            favoriteItems
-              .map(item => (
-                <Card
-                  id={item.itemId}
-                  key={item.id}
-                  title={item.title}
-                  price={item.price}
-                  imgSrc={item.imgSrc}
+      {
+        favoriteItems.length > 0 ?
+        <CardContainer>
+          {
+            favoriteItems.map(item => (
+              <Card
+                id={item.itemId}
+                key={item.id}
+                title={item.title}
+                price={item.price}
+                imgSrc={item.imgSrc}
 
-                  addToFavorite={() => onAddToFavorite(item)}
-                  removeFromFavorite={() => onRemoveFromFavorite(item.id)}
-                  addToCart={() => onAddToCart(item)}
-                  removeFromCart={() => onRemoveFromCart(getIdOfItemInCart(item.itemId))}
-                />
+                addToFavorite={() => onAddToFavorite(item)}
+                removeFromFavorite={() => onRemoveFromFavorite(item.id)}
+                addToCart={() => onAddToCart(item)}
+                removeFromCart={() => onRemoveFromCart(getIdOfItemInCart(item.itemId))}
+              />
             ))
-          :
-            <p>Пока у Вас нет избранных товаров</p>
           }
-      </CardContainer>
+        </CardContainer>
+      :
+        <Info
+          image={{
+            url: "img/crying-emoji.svg",
+            width: 80,
+            height: 80
+          }}
+          title="Закладок нет :("
+          parag="На главной странице Вы можете добавить понравившиеся кросовки"
+          btn={{
+            link: "/react-sneakers/",
+            text: "Вернуться на главную"
+          }}
+        />
+      }
 
     </section>
   );

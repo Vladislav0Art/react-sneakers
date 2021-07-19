@@ -161,7 +161,7 @@ function App() {
           onClickCart={() => setIsCartOpened(true)}
         />
 
-        <Route path="/" exact>
+        <Route path="/react-sneakers/" exact>
           <Home
             searchValue={searchValue}
             isLoading={isLoading}
@@ -177,7 +177,7 @@ function App() {
           />
         </Route>
 
-        <Route path="/favorites" exact>
+        <Route path="/react-sneakers/favorites" exact>
           <Favorites
             onAddToFavorite={onAddToFavorite}
             onRemoveFromFavorite={onRemoveFromFavorite}
@@ -186,7 +186,7 @@ function App() {
           />
         </Route>
 
-        <Route path="/orders">
+        <Route path="/react-sneakers/orders">
           <Orders />
         </Route>
 

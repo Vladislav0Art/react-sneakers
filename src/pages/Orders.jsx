@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 // components
 import Order from '../components/Order';
+import Info from '../components/Info';
 // config
 import { baseUrl } from '../config/config';
 
@@ -50,15 +50,34 @@ const Orders = () => {
                 />
               ))
             :
-              <p>Пока у Вас нет заказов.</p>
+            <Info
+              image={{
+                url: "img/sad-emoji.svg",
+                width: 80,
+                height: 80
+              }}
+              title="У Вас нет заказов :("
+              parag="Вернитесь на главную страницу и сделайте свой первый заказ!"
+              btn={{
+                link: "/react-sneakers/",
+                text: "Вернуться на главную"
+              }}
+            />
           :
-            <p>Ищем Ваши заказы...</p>
+          <Info
+            image={{
+              url: "img/search.svg",
+              width: 70,
+              height: 70
+            }}
+            title="Вы ищем Ваши заказы в базе данных"
+            parag="Пожалуйста, подождите..."
+          />
         }
       </div>
     </section>
   );
 };
 
-Orders.propTypes = {};
 
 export default Orders;
