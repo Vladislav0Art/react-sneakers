@@ -1,0 +1,33 @@
+.slide {
+  img {
+    object-fit: cover;
+    width: 100%;
+    max-height: 500px;
+    height: 100%;
+  }
+}
+
+@media all and (max-width: 992px) {
+  .slide {
+    img {
+      height: 500px;
+    }
+  }
+}
+
+
+@media all and (max-width: 768px) {
+  .slide {
+    img {
+      height: 350px;
+    }
+  }
+}
+
+@media all and (max-width: 576px) {
+  .slide {
+    img {
+      height: 300px;
+    }
+  }
+}

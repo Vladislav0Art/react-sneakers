@@ -25,6 +25,9 @@ function App() {
   const [currentSum, setCurrentSum] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [theme, setTheme] = useState('light');
+
+
 
   // getting items, cart items, favorite items from mockup db
   useEffect(() => {
@@ -135,64 +138,69 @@ function App() {
 
 
   return (
-    <div className="wrapper clear">
-      <AppContext.Provider value={{ 
-        items, 
-        cartItems, 
-        favoriteItems,
+    <React.Fragment>
+      <div className={`wrapper clear ${theme}`}>
+        <AppContext.Provider value={{ 
+          items, 
+          cartItems, 
+          favoriteItems,
+          theme,
 
-        setCartItems,
-        onRemoveFromCart,
+          setCartItems,
+          onRemoveFromCart,
 
-        isItemAdded, 
-        isItemFavorite
-      }}>
-        { isCartOpened && 
-          <Drawer
+          isItemAdded, 
+          isItemFavorite,
+
+          setTheme
+        }}>
+          { isCartOpened && 
+            <Drawer
+              currentSum={currentSum}
+              removeItem={onRemoveFromCart}
+              onClose={() => setIsCartOpened(false)}
+            />
+          }
+          
+          <Header
             currentSum={currentSum}
-            removeItem={onRemoveFromCart}
-            onClose={() => setIsCartOpened(false)}
+            countOfLikedItems={favoriteItems.length} 
+            onClickCart={() => setIsCartOpened(true)}
           />
-        }
-        
-        <Header
-          currentSum={currentSum}
-          countOfLikedItems={favoriteItems.length} 
-          onClickCart={() => setIsCartOpened(true)}
-        />
 
-        <Route path="/react-sneakers/" exact>
-          <Home
-            searchValue={searchValue}
-            isLoading={isLoading}
-            
-            onChangeSearchInput={onChangeSearchInput} 
-            clearSearchInput={clearSearchInput}
+          <Route path="/react-sneakers/" exact>
+            <Home
+              searchValue={searchValue}
+              isLoading={isLoading}
+              
+              onChangeSearchInput={onChangeSearchInput} 
+              clearSearchInput={clearSearchInput}
 
-            onAddToFavorite={onAddToFavorite}
-            onRemoveFromFavorite={onRemoveFromFavorite}
+              onAddToFavorite={onAddToFavorite}
+              onRemoveFromFavorite={onRemoveFromFavorite}
 
-            onAddToCart={onAddToCart}
-            onRemoveFromCart={onRemoveFromCart}
-          />
-        </Route>
+              onAddToCart={onAddToCart}
+              onRemoveFromCart={onRemoveFromCart}
+            />
+          </Route>
 
-        <Route path="/react-sneakers/favorites" exact>
-          <Favorites
-            onAddToFavorite={onAddToFavorite}
-            onRemoveFromFavorite={onRemoveFromFavorite}
-            onAddToCart={onAddToCart}
-            onRemoveFromCart={onRemoveFromCart}
-          />
-        </Route>
+          <Route path="/react-sneakers/favorites" exact>
+            <Favorites
+              onAddToFavorite={onAddToFavorite}
+              onRemoveFromFavorite={onRemoveFromFavorite}
+              onAddToCart={onAddToCart}
+              onRemoveFromCart={onRemoveFromCart}
+            />
+          </Route>
 
-        <Route path="/react-sneakers/orders">
-          <Orders />
-        </Route>
+          <Route path="/react-sneakers/orders">
+            <Orders />
+          </Route>
 
-      </AppContext.Provider>
-
-    </div>
+        </AppContext.Provider>
+      </div>
+      <div className={`main-background ${theme}`}></div>
+    </React.Fragment>
   );
 }
 

@@ -18,14 +18,26 @@
   }
 
   &:hover {
-    background-color: lighten(#9DD558, 5%);
-
     img {
       left: 20px;
     }
   }
-  &:active {
-    background-color: darken(#9DD558, 5%);
+
+  &.light {
+    &:hover {
+      background-color: lighten(#9DD558, 5%);
+    }
+    &:active {
+      background-color: darken(#9DD558, 5%);
+    }
   }
 
+  &.dark {
+    &:hover {
+      background-color: lighten(#32A6FA, 5%);
+    }
+    &:active {
+      background-color: darken(#32A6FA, 5%);
+    }
+  }
 }

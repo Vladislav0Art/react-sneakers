@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 // components
 import Card from '../components/Card';
 import CardContainer from '../components/CardContainer';
+import CustomSlider from '../components/CustomSlider';
+import Slide from '../components/Slide';
 // contexts
 import AppContext from '../contexts/AppContext';
 
@@ -19,7 +21,7 @@ const Home = ({
   onAddToCart,
   onRemoveFromCart
 }) => {
-  const { items, cartItems, favoriteItems } = React.useContext(AppContext);
+  const { items, cartItems, favoriteItems, theme } = React.useContext(AppContext);
 
 
   const getIdOfItemInFavorites = (id) => {
@@ -33,7 +35,27 @@ const Home = ({
   };
   
   return (
-    <section className="content p-40">
+    <section className={`content p-40 ${theme}`}>
+      
+      <CustomSlider settings={{
+        dots: true,
+        infinite: true,
+        speed: 800,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        arrows: false
+      }}>
+        <Slide src="img/slides/1.jpg" />
+        <Slide src="img/slides/2.jpg" />
+        <Slide src="img/slides/3.jpg" />
+        <Slide src="img/slides/4.jpg" />
+        <Slide src="img/slides/5.jpg" />
+        <Slide src="img/slides/6.jpg" />
+      </CustomSlider>
+
+
       <div className="mb-40 d-flex justify-between align-center content__top">
         <h1 className="content__title">{(searchValue === "") ? "Все кросовки" : `Поиск по запросу: "${searchValue}"`}</h1>
         <div className="d-flex align-center content__search">

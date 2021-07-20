@@ -1,0 +1,23 @@
+.slider-container {
+  margin-bottom: 80px;
+
+  .slick-list {
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  &.light .slick-dots li button::before {
+    color: #000;
+  }
+  &.dark .slick-dots li button::before {
+    color: #fff;
+  }
+}
+
+@media all and (max-width: 576px) {
+  .slider-container {
+    .slick-list {
+      border-radius: 0;
+    }
+  }
+}
